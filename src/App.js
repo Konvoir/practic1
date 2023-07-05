@@ -12,11 +12,19 @@ function App() {
       {id: 4, title: 'Node', body:'важный язык'}
   ])
     const [title, setTitle] = useState('')
-    const bodyInputRef = useRef();
+    const [body, setBody] = useState('')
+
+
     const addNewPost = (e) => {
       e.preventDefault()
-console.log(title)
-console.log(bodyInputRef.current.value)
+      const newPost = {
+        id: Date.now(),
+        title,
+        body
+      }
+      setPosts([...posts, newPost])
+      setTitle('')
+      setBody('')
     }
 
   return (
@@ -29,11 +37,17 @@ console.log(bodyInputRef.current.value)
               type="text" 
               placeholder="Название поста"/>
 
-            {/* Неуправляемый компонент */}
             <MyInput 
-              ref={bodyInputRef}
+              value={body}
+              onChange={e => setBody(e.target.value)}
               type="text" 
               placeholder="Описание поста"/>
+
+            {/* Неуправляемый компонент */}
+            {/* <MyInput 
+              ref={bodyInputRef}
+              type="text" 
+              placeholder="Описание поста"/> */}
             
             <MyButton onClick={addNewPost}>Создать пост</MyButton>
             
