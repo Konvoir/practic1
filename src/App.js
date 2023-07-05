@@ -9,22 +9,15 @@ function App() {
       {id: 1, title: 'Javascript', body:'мой любимый язык'},
       {id: 2, title: 'React', body:'мой любимая библиотека'},
       {id: 3, title: 'React native', body:'приоритет в изучении'},
-      {id: 4, title: 'Node', body:'важный язык'}
+      {id: 4, title: 'Node', body:'важный язык'},
   ])
-    const [title, setTitle] = useState('')
-    const [body, setBody] = useState('')
-
+    const [post, setPost] = useState({title: '', body: ''})
+    
 
     const addNewPost = (e) => {
       e.preventDefault()
-      const newPost = {
-        id: Date.now(),
-        title,
-        body
-      }
-      setPosts([...posts, newPost])
-      setTitle('')
-      setBody('')
+      setPosts([...posts, {...post, id: Date.now()}])
+      setPosts({title: '', body: ''})
     }
 
   return (
@@ -32,14 +25,14 @@ function App() {
           <form>
             {/* управляемый компонент */}
             <MyInput 
-              value={title}
-              onChange={e => setTitle(e.target.value)}
+              value={post.title}
+              onChange={e => setPost({...post, title: e.target.value})}
               type="text" 
               placeholder="Название поста"/>
 
             <MyInput 
-              value={body}
-              onChange={e => setBody(e.target.value)}
+              value={post.body}
+              onChange={e => setPost({...post, body: e.target.value})}
               type="text" 
               placeholder="Описание поста"/>
 
@@ -53,7 +46,7 @@ function App() {
             
             
           </form>
-          <Postlist posts={posts} title ={'Список постов'}/>
+          <Postlist posts={posts} title='Список постов'/>
         </div>
         );
 }
