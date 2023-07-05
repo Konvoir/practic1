@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import './styles/App.css'
-import PostItem from "./components/PostItem/PostItem";
-// import axios from 'axios';
-// import Counter from "./components/Counter";
+import Postlist from "./components/PostList/Postlist";
+import MyButton from "./components/UI/button/MyButton";
+import MyInput from "./components/UI/input/MyInput";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -11,13 +11,27 @@ function App() {
       {id: 3, title: 'React native', body:'приоритет в изучении'},
       {id: 4, title: 'Node', body:'важный язык'}
   ])
+    const [title, setTitle] = useState('')
 
+    const addNewPost = (e) => {
+      e.preventDefault()
+    }
 
   return (
         <div className="App">
-          {posts.map(post =>
-              <PostItem post={post} key={post.id}/>
-            )}
+          <form>
+            <MyInput 
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              type="text" 
+              placeholder="Название поста"/>
+            <MyInput type="text" placeholder="Описание поста"/>
+            
+            <MyButton onClick={addNewPost}>Создать пост</MyButton>
+            
+            
+          </form>
+          <Postlist posts={posts} title ={'Список постов'}/>
         </div>
         );
 }
