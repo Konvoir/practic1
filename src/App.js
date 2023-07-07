@@ -4,6 +4,7 @@ import Postlist from "./components/PostList/Postlist";
 // import MyButton from "./components/UI/button/MyButton";
 // import MyInput from "./components/UI/input/MyInput";
 import PostForm from "./components/PostForm/PostForm";
+import MySelect from "./components/UI/select/MySelect";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -13,6 +14,7 @@ function App() {
       {id: 4, title: 'Node', body:'важный язык'},
   ])
      
+  const [selectedSort, setSelectedSort] = useState('')
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
   }
@@ -24,8 +26,31 @@ function App() {
   return (
         <div className="App">
           <PostForm create={createPost}/>
-          <Postlist remove={removePost} posts={posts} title='Список постов'/>
-        </div>
+              <hr style={{margin: '15px 0'}}/>
+          <div>
+           
+           <MySelect 
+                value={selectedSort}
+                onChange={sort => selectedSort(sort)}
+                defaultValue="Сортировка"
+                options={[
+                  {value: 'title', name: 'По названию'},
+                  {value: 'body', name: 'По описанию'},
+                ]}
+           />
+           
+            {/* <select>
+              <option value="value1">По названию</option>
+              <option value="value1">По описанию</option>
+            </select> */}
+          </div>
+
+          {posts.length 
+              ? <Postlist remove={removePost} posts={posts} title='Список постов'/>
+              : <h1> Посты не найдены</h1>
+          }
+
+          </div>
         );
 }
 
