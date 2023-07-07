@@ -17,7 +17,7 @@ function App() {
     const addNewPost = (e) => {
       e.preventDefault()
       setPosts([...posts, {...post, id: Date.now()}])
-      setPosts({title: '', body: ''})
+      setPost({title: '', body: ''})
     }
 
   return (
