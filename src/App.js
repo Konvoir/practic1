@@ -1,10 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useMemo} from "react";
 import './styles/App.css'
 import Postlist from "./components/PostList/Postlist";
-// import MyButton from "./components/UI/button/MyButton";
-// import MyInput from "./components/UI/input/MyInput";
 import PostForm from "./components/PostForm/PostForm";
 import MySelect from "./components/UI/select/MySelect";
+import MyInput from "./components/UI/input/MyInput";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -15,6 +14,16 @@ function App() {
   ])
      
   const [selectedSort, setSelectedSort] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  
+  
+  const sotedPosts = useMemo(() => {
+    if(selectedSort) {
+      return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+    }
+    return posts;
+  }, [selectedSort, posts])
+
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
   }
@@ -25,14 +34,18 @@ function App() {
 
   const sortPosts = (sort) => {
     setSelectedSort(sort)
-    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-  }
+    }
 
   return (
         <div className="App">
           <PostForm create={createPost}/>
               <hr style={{margin: '15px 0'}}/>
           <div>
+            <MyInput
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Поиск..."
+            />
            
            <MySelect 
                 value={selectedSort}
@@ -44,14 +57,10 @@ function App() {
                 ]}
            />
            
-            {/* <select>
-              <option value="value1">По названию</option>
-              <option value="value1">По описанию</option>
-            </select> */}
-          </div>
+            </div>
 
           {posts.length 
-              ? <Postlist remove={removePost} posts={posts} title='Список постов'/>
+              ? <Postlist remove={removePost} posts={sotedPosts} title='Список постов'/>
               : <h1> Посты не найдены</h1>
           }
 
