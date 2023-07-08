@@ -23,6 +23,11 @@ function App() {
       setPosts(posts.filter(p => p.id !== post.id))
   }
 
+  const sortPosts = (sort) => {
+    setSelectedSort(sort)
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
+  }
+
   return (
         <div className="App">
           <PostForm create={createPost}/>
@@ -31,7 +36,7 @@ function App() {
            
            <MySelect 
                 value={selectedSort}
-                onChange={sort => selectedSort(sort)}
+                onChange={sortPosts}
                 defaultValue="Сортировка"
                 options={[
                   {value: 'title', name: 'По названию'},
