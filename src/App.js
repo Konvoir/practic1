@@ -25,7 +25,7 @@ function App() {
   }, [selectedSort, posts])
 
   const sortedAndSearchedPosts = useMemo(() => {
-    return sotedPosts.filter(post => post.title.includes(searchQuery))
+    return sotedPosts.filter(post => post.title.toLowerCase.includes(searchQuery.toLowerCase))
   }, [searchQuery, sotedPosts])
 
   const createPost = (newPost) => {
